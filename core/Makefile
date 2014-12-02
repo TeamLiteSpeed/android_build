@@ -1633,6 +1633,9 @@ bacon: otapackage
 ifneq ($(TARGET_CUSTOM_RELEASETOOL),)
 	@echo -e ${CL_YLW}"Running custom releasetool..."${CL_RST}
 	$(hide) OTAPACKAGE=$(PWD)/$(INTERNAL_OTA_PACKAGE_TARGET) $(TARGET_CUSTOM_RELEASETOOL)
+else
+	$(hide) $(MD5SUM) $(INTERNAL_OTA_PACKAGE_TARGET) > $(INTERNAL_OTA_PACKAGE_TARGET).md5sum
+	@echo -e ${CL_CYN}"Package Complete: $(INTERNAL_OTA_PACKAGE_TARGET)"${CL_RST}
 endif
 
 endif    # recovery_fstab is defined
