@@ -17,6 +17,7 @@ Invoke ". build/envsetup.sh" from your shell to add the following functions to y
 - resgrep: Greps on all local res/*.xml files.
 - sgrep:   Greps on all local source files.
 - godir:   Go to the directory containing a file.
+- aodremote: Add git remote for AOD Gerrit Review
 - aospremote: Add git remote for matching AOSP repository
 - cafremote: Add git remote for matching CodeAurora repository.
 - mka:      Builds using SCHED_BATCH on all processors
@@ -1466,6 +1467,33 @@ function godir () {
         pathname=${lines[0]}
     fi
     \cd $T/$pathname
+}
+
+function aodremote()
+{
+    git remote rm aodremote 2> /dev/null
+    if [ ! -d .git ]
+    then
+        echo .git directory not found. Please run this from the root directory of the Android repository you wish to set up.
+    fi
+    GERRIT_REMOTE=$(cat .git/config  | grep git://github.com | awk '{ print $NF }' | sed s#git://github.com/##g)
+    if [ -z "$GERRIT_REMOTE" ]
+    then
+        GERRIT_REMOTE=$(cat .git/config  | grep http://github.com | awk '{ print $NF }' | sed s#http://github.com/##g)
+        if [ -z "$GERRIT_REMOTE" ]
+        then
+          echo Unable to set up the git remote, are you in the root of the repo?
+          return 0
+        fi
+    fi
+    AODUSER=`git config --get review.review.androidopendevelopment.com.username`
+    if [ -z "$AODUSER" ]
+    then
+        git remote add aodremote ssh://review.androidopendevelopment.com:29418/$GERRIT_REMOTE
+    else
+        git remote add aodremote ssh://$AODUSER@review.androidopendevelopment.com:29418/$GERRIT_REMOTE
+    fi
+    echo You can now push to "aodremote".
 }
 
 function aospremote()
