@@ -1638,6 +1638,12 @@ ifneq ($(PRODUCT_PREBUILT_WEBVIEWCHROMIUM),yes)
 	@echo "Running Chromium prebuilt setup script..."
 	$(hide) . $(TOPDIR)vendor/tls/utils/chromium_prebuilt.sh $(TOP)
 endif
+<<<<<<< HEAD
+=======
+endif
+
+check_bacon:
+>>>>>>> 3fa8fb7... build: Fix PreBuilt Chromium refs
 ifneq ($(TARGET_CUSTOM_RELEASETOOL),)
 	@echo -e ${CL_YLW}"Running custom releasetool..."${CL_RST}
 	$(hide) OTAPACKAGE=$(PWD)/$(INTERNAL_OTA_PACKAGE_TARGET) $(TARGET_CUSTOM_RELEASETOOL)
