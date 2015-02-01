@@ -990,7 +990,13 @@ INTERNAL_SYSTEMIMAGE_FILES := $(filter $(TARGET_OUT)/%, \
     $(PDK_FUSION_SYSIMG_FILES) \
     $(RECOVERY_RESOURCE_ZIP))
 
-FULL_SYSTEMIMAGE_DEPS := $(INTERNAL_SYSTEMIMAGE_FILES) $(INTERNAL_USERIMAGES_DEPS)
+systemimage-squisher: $(INTERNAL_SYSTEMIMAGE_FILES)
+	@echo -e "Optimizing PNGs to Shrink ROM Size!"
+	$(hide) APKCERTS=$(APKCERTS_FILE) ./vendor/icarus/utils/squisher
+
+.PHONY: systemimage-squisher
+
+FULL_SYSTEMIMAGE_DEPS := $(INTERNAL_SYSTEMIMAGE_FILES) $(INTERNAL_USERIMAGES_DEPS) systemimage-squisher
 # -----------------------------------------------------------------
 # installed file list
 # Depending on anything that $(BUILT_SYSTEMIMAGE) depends on.
@@ -1596,8 +1602,8 @@ else
     OTA_FROM_TARGET_SCRIPT := $(TARGET_RELEASETOOL_OTA_FROM_TARGET_SCRIPT)
 endif
 
-TLS_VENDOR_EXISTS = $(strip $(wildcard $(TOP)/vendor/tls/vendor.mk))
-ifneq ($(TLS_VENDOR_EXISTS),)
+ICARUS_VENDOR_EXISTS = $(strip $(wildcard $(TOP)/vendor/icarus/vendor.mk))
+ifneq ($(ICARUS_VENDOR_EXISTS),)
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := true
 else
     $(INTERNAL_OTA_PACKAGE_TARGET): backuptool := false
@@ -1636,7 +1642,7 @@ bacon: otapackage
 ifeq ($(USE_PREBUILT_CHROMIUM),1)
 ifneq ($(PRODUCT_PREBUILT_WEBVIEWCHROMIUM),yes)
 	@echo "Running Chromium prebuilt setup script..."
-	$(hide) . $(TOPDIR)vendor/tls/utils/chromium_prebuilt.sh $(TOP)
+	$(hide) . $(TOPDIR)vendor/icarus/utils/chromium_prebuilt.sh $(TOP)
 endif
 endif
 

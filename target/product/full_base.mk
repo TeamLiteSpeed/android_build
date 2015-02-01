@@ -63,4 +63,4 @@ $(call inherit-product, $(SRC_TARGET_DIR)/product/locales_full.mk)
 $(call inherit-product, $(SRC_TARGET_DIR)/product/generic_no_telephony.mk)
 
 # Call the vendor if it exists
-$(call inherit-product-if-exists, vendor/tls/vendor.mk)
+$(call inherit-product-if-exists, vendor/icarus/vendor.mk)
