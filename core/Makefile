@@ -1667,7 +1667,7 @@ bacon: otapackage
 ifeq ($(USE_PREBUILT_CHROMIUM),1)
 ifneq ($(PRODUCT_PREBUILT_WEBVIEWCHROMIUM),yes)
 	@echo "Running Chromium prebuilt setup script..."
-	$(hide) . $(TOPDIR)vendor/aod/tools/chromium_prebuilt.sh $(TOP)
+	$(hide) . $(TOPDIR)vendor/icarus/utils/chromium_prebuilt.sh $(TOP)
 endif
 ifneq ($(TARGET_CUSTOM_RELEASETOOL),)
 	@echo -e ${CL_YLW}"Running custom releasetool..."${CL_RST}
