@@ -1643,20 +1643,37 @@ $(INTERNAL_OTA_PACKAGE_TARGET): $(BUILT_TARGET_FILES_PACKAGE) $(DISTTOOLS)
 .PHONY: otapackage bacon
 otapackage: $(INTERNAL_OTA_PACKAGE_TARGET)
 bacon: otapackage
+	$(hide) $(MD5SUM) $(INTERNAL_OTA_PACKAGE_TARGET) > $(INTERNAL_OTA_PACKAGE_TARGET).md5sum
+	@echo -e ${CL_BLU}""${CL_BLU}
+	@echo -e ${CL_BLU}"TTTTTTTTTTTTTTTTTTTTTTTLLLLLLLLLLL                SSSSSSSSSSSSSSS "${CL_BLU}
+	@echo -e ${CL_BLU}"T:::::::::::::::::::::TL:::::::::L              SS:::::::::::::::S"${CL_BLU}
+	@echo -e ${CL_BLU}"T:::::::::::::::::::::TL:::::::::L             S:::::SSSSSS::::::S"${CL_BLU}
+	@echo -e ${CL_BLU}"T:::::TT:::::::TT:::::TLL:::::::LL             S:::::S     SSSSSSS"${CL_BLU}
+	@echo -e ${CL_BLU}"TTTTTT  T:::::T  TTTTTT  L:::::L               S:::::S            "${CL_BLU}
+	@echo -e ${CL_BLU}"        T:::::T          L:::::L               S:::::S            "${CL_BLU}
+	@echo -e ${CL_BLU}"        T:::::T          L:::::L                S::::SSSS         "${CL_BLU}
+	@echo -e ${CL_BLU}"        T:::::T          L:::::L                 SS::::::SSSSS    "${CL_BLU}
+	@echo -e ${CL_BLU}"        T:::::T          L:::::L                   SSS::::::::SS  "${CL_BLU}
+	@echo -e ${CL_BLU}"        T:::::T          L:::::L                      SSSSSS::::S "${CL_BLU}
+	@echo -e ${CL_BLU}"        T:::::T          L:::::L                           S:::::S"${CL_BLU}
+	@echo -e ${CL_BLU}"        T:::::T          L:::::L         LLLLLL            S:::::S"${CL_BLU}
+	@echo -e ${CL_BLU}"      TT:::::::TT      LL:::::::LLLLLLLLL:::::LSSSSSSS     S:::::S"${CL_BLU}
+	@echo -e ${CL_BLU}"      T:::::::::T      L::::::::::::::::::::::LS::::::SSSSSS:::::S"${CL_BLU}
+	@echo -e ${CL_BLU}"      T:::::::::T      L::::::::::::::::::::::LS:::::::::::::::SS "${CL_BLU}
+	@echo -e ${CL_BLU}"      TTTTTTTTTTT      LLLLLLLLLLLLLLLLLLLLLLLL SSSSSSSSSSSSSSS   "${CL_BLU}
+	@echo -e ${CL_BLU}""${CL_BLU}
+	@echo -e ${CL_CYN}"Package Complete: $(INTERNAL_OTA_PACKAGE_TARGET)"${CL_RST}
+
 ifeq ($(USE_PREBUILT_CHROMIUM),1)
 ifneq ($(PRODUCT_PREBUILT_WEBVIEWCHROMIUM),yes)
 	@echo "Running Chromium prebuilt setup script..."
-	$(hide) . $(TOPDIR)vendor/icarus/utils/chromium_prebuilt.sh $(TOP)
+	$(hide) . $(TOPDIR)vendor/aod/tools/chromium_prebuilt.sh $(TOP)
 endif
-endif
-
 ifneq ($(TARGET_CUSTOM_RELEASETOOL),)
 	@echo -e ${CL_YLW}"Running custom releasetool..."${CL_RST}
 	$(hide) OTAPACKAGE=$(PWD)/$(INTERNAL_OTA_PACKAGE_TARGET) $(TARGET_CUSTOM_RELEASETOOL)
-else
-	$(hide) $(MD5SUM) $(INTERNAL_OTA_PACKAGE_TARGET) > $(INTERNAL_OTA_PACKAGE_TARGET).md5sum
-	@echo -e ${CL_CYN}"Package Complete: $(INTERNAL_OTA_PACKAGE_TARGET)"${CL_RST}
 endif
+else
 
 endif    # recovery_fstab is defined
 endif    # TARGET_NO_KERNEL != true
